@@ -3,7 +3,6 @@ import { Loader } from 'components/Loader/Loader.js';
 
 // Стили
 import { Global } from 'Global.styled.jsx';
-// import { Normalize } from 'styled-normalize';
 import { AppWrapper } from 'App.styled.jsx';
 import { Button } from 'components/Button/Button.js';
 
@@ -55,7 +54,6 @@ export class App extends Component {
 
   fetchMoreImages = async () => {
     try {
-
       await this.setState(({ pageNumber }) => ({
         pageNumber: pageNumber + 1,
       }));
@@ -70,7 +68,6 @@ export class App extends Component {
       this.setState(({ images }) => ({
         images: images.concat(data.hits),
       }));
-      
     } catch (error) {
       this.setState({ error: error.response.data });
     } finally {
@@ -85,21 +82,23 @@ export class App extends Component {
     console.log(this.state.showModal);
   };
 
-  getLargePicture =pictureURL => {
+  getLargePicture = pictureURL => {
     this.setState({ modalImage: pictureURL });
   };
 
   render() {
     const { isLoading, images, showModal, modalImage, totalHits } = this.state;
-    const { handleSetSearchQuery, fetchMoreImages, toogleModal, getLargePicture } = this;
+    const {
+      handleSetSearchQuery,
+      fetchMoreImages,
+      toogleModal,
+      getLargePicture,
+    } = this;
     return (
       <>
-        
         <Global />
         <AppWrapper>
-          {showModal && (
-            <Modal modalImage={modalImage} onClose={toogleModal} />
-          )}
+          {showModal && <Modal modalImage={modalImage} onClose={toogleModal} />}
           <Searchbar submit={handleSetSearchQuery}></Searchbar>
           {isLoading && <Loader />}
           {images && images.length !== 0 && (
