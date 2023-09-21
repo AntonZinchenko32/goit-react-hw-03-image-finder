@@ -5,7 +5,6 @@ import { ModalBackdrop, ModalContent } from './Modal.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
-  
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
@@ -20,11 +19,8 @@ export class Modal extends Component {
   handleBackdropClick = e => {
     e.target === e.currentTarget && this.props.onClose();
   };
-  
+
   render() {
-
-    console.log(this.props.modalImage);
-
     return createPortal(
       <ModalBackdrop onClick={this.handleBackdropClick}>
         <ModalContent>

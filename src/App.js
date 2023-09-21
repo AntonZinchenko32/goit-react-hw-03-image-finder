@@ -14,7 +14,7 @@ import { Modal } from 'components/Modal/Modal.js';
 
 export class App extends Component {
   state = {
-    images: null,
+    images: [],
     totalHits: null,
 
     isLoading: false,
@@ -26,24 +26,28 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    prevState.searchQuery !== this.state.searchQuery && this.fetchImages();
+    const { searchQuery, pageNumber } = this.state;
+    if (
+      prevState.searchQuery !== searchQuery ||
+      prevState.pageNumber !== pageNumber
+    )
+      this.fetchImages();
   }
 
-  handleSetSearchQuery = value => {
-    this.setState({ searchQuery: value });
+  handleSearch = value => {
+    this.setState({ searchQuery: value, pageNumber: 1, images: [] });
   };
 
   fetchImages = async () => {
+    const { searchQuery, pageNumber } = this.state;
+
+    this.setState({ isLoading: true });
     try {
-      await this.setState({ pageNumber: 1 });
-      await this.setState({ images: null });
-      this.setState({ isLoading: true });
-      const data = await getAllImages(
-        this.state.searchQuery,
-        this.state.pageNumber
-      );
-      console.log(data);
-      this.setState({ images: data.hits });
+      const data = await getAllImages(searchQuery, pageNumber);
+
+      this.setState(({ images }) => ({
+        images: [...images, ...data.hits],
+      }));
       this.setState({ totalHits: data.totalHits });
     } catch (error) {
       this.setState({ error: error.response.data });
@@ -52,34 +56,16 @@ export class App extends Component {
     }
   };
 
-  fetchMoreImages = async () => {
-    try {
-      await this.setState(({ pageNumber }) => ({
-        pageNumber: pageNumber + 1,
-      }));
-
-      this.setState({ isLoading: true });
-
-      const data = await getAllImages(
-        this.state.searchQuery,
-        this.state.pageNumber
-      );
-
-      this.setState(({ images }) => ({
-        images: images.concat(data.hits),
-      }));
-    } catch (error) {
-      this.setState({ error: error.response.data });
-    } finally {
-      this.setState({ isLoading: false });
-    }
+  pageTurner = () => {
+    this.setState(({ pageNumber }) => ({
+      pageNumber: pageNumber + 1,
+    }));
   };
 
   toogleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
-    console.log(this.state.showModal);
   };
 
   getLargePicture = pictureURL => {
@@ -88,29 +74,22 @@ export class App extends Component {
 
   render() {
     const { isLoading, images, showModal, modalImage, totalHits } = this.state;
-    const {
-      handleSetSearchQuery,
-      fetchMoreImages,
-      toogleModal,
-      getLargePicture,
-    } = this;
+    const { handleSearch, pageTurner, toogleModal, getLargePicture } = this;
     return (
       <>
         <Global />
         <AppWrapper>
           {showModal && <Modal modalImage={modalImage} onClose={toogleModal} />}
-          <Searchbar submit={handleSetSearchQuery} />
+          <Searchbar submit={handleSearch} />
           {isLoading && <Loader />}
-          {images && images.length !== 0 && (
+          {images.length !== 0 && (
             <>
               <ImageGallery
                 data={images}
                 getLargePicture={getLargePicture}
                 openModalFunc={toogleModal}
               />
-              {totalHits > images.length && (
-                <Button LoadMoreFunc={fetchMoreImages} />
-              )}
+              {totalHits > images.length && <Button pageTurner={pageTurner} />}
             </>
           )}
         </AppWrapper>

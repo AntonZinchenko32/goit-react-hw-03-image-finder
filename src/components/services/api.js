@@ -16,3 +16,4 @@ export const getAllImages = async (userInput, page) => {
   const { data } = await axios(`api/?${params}`);
   return data;
 };
+
