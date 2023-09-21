@@ -25,13 +25,13 @@ export class App extends Component {
     modalImage: null,
   };
 
-  componentDidUpdate(_, prevState) {
+  async componentDidUpdate(_, prevState) {
     const { searchQuery, pageNumber } = this.state;
-    if (
-      prevState.searchQuery !== searchQuery ||
-      prevState.pageNumber !== pageNumber
-    )
-      this.fetchImages();
+
+    const searchQueryWasUpdate = prevState.searchQuery !== searchQuery;
+    const pageNumberWasUpdate = prevState.pageNumber !== pageNumber;
+
+    if (searchQueryWasUpdate || pageNumberWasUpdate) this.fetchImages();
   }
 
   handleSearch = value => {
@@ -42,15 +42,14 @@ export class App extends Component {
   fetchImages = async () => {
     const { searchQuery, pageNumber } = this.state;
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: false });
     try {
       const data = await getAllImages(searchQuery, pageNumber);
 
       this.setState(({ images }) => ({
         images: [...images, ...data.hits],
-        totalHits: data.totalHits
+        totalHits: data.totalHits,
       }));
-
     } catch (error) {
       this.setState({ error: error.response.data });
     } finally {

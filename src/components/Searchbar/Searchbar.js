@@ -4,13 +4,14 @@ import { SearchBar, Form, SearchButton, Input } from './Searchbar.styled.jsx';
 class Searchbar extends Component {
   state = { value: '' };
 
-  handleChange = ({ target: { value } }) => {
-    this.setState({ value });
-  };
+  componentDidUpdate(_, prevState) {
+    prevState.value !== this.state.value && this.props.submit(this.state.value);
+  }
+
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.submit(this.state.value);
+    this.setState({ value: e.currentTarget.elements.searchInput.value });
   };
 
   render() {
@@ -19,8 +20,6 @@ class Searchbar extends Component {
         <Form onSubmit={this.handleSubmit}>
           <SearchButton type="submit" />
           <Input
-            onChange={this.handleChange}
-            value={this.state.value}
             type="text"
             autoComplete="off"
             autoFocus
