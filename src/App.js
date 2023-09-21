@@ -69,13 +69,13 @@ export class App extends Component {
     }));
   };
 
-  getLargePicture = pictureURL => {
-    this.setState({ modalImage: pictureURL });
+  getLargeImage = imageURL => {
+    this.setState({ modalImage: imageURL });
   };
 
   render() {
     const { isLoading, images, showModal, modalImage, totalHits } = this.state;
-    const { handleSearch, pageTurner, toogleModal, getLargePicture } = this;
+    const { handleSearch, pageTurner, toogleModal, getLargeImage } = this;
     return (
       <>
         <Global />
@@ -87,7 +87,7 @@ export class App extends Component {
             <>
               <ImageGallery
                 data={images}
-                getLargePicture={getLargePicture}
+                getLargeImage={getLargeImage}
                 openModalFunc={toogleModal}
               />
               {totalHits > images.length && <Button pageTurner={pageTurner} />}

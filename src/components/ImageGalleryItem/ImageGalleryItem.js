@@ -3,7 +3,7 @@ import { Item, Image } from './ImageGalleryItem.styled';
 export const ImageGalleryItem = ({
   webformatURL,
   largeImageURL,
-  getLargePicture,
+  getLargeImage,
   openModalFunc,
 }) => {
   return (
@@ -15,7 +15,7 @@ export const ImageGalleryItem = ({
         height="240px"
         loading="lazy"
         onClick={() => {
-          getLargePicture(largeImageURL)
+          getLargeImage(largeImageURL)
           openModalFunc()
         }}
       />
