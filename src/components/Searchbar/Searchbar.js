@@ -5,13 +5,15 @@ class Searchbar extends Component {
   state = { value: '' };
 
   componentDidUpdate(_, prevState) {
-    prevState.value !== this.state.value && this.props.submit(this.state.value);
-  }
+    const isValueWasUpdate = prevState.value !== this.state.value;
 
+    isValueWasUpdate && this.state.value && this.props.submit(this.state.value);
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ value: e.currentTarget.elements.searchInput.value });
+    const trimmedInputValue = e.currentTarget.elements.searchInput.value.trim();
+    this.setState({ value: trimmedInputValue });
   };
 
   render() {
@@ -24,7 +26,7 @@ class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            name='searchInput'
+            name="searchInput"
           />
         </Form>
       </SearchBar>
