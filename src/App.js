@@ -99,7 +99,7 @@ export class App extends Component {
         <Global />
         <AppWrapper>
           {showModal && <Modal modalImage={modalImage} onClose={toogleModal} />}
-          <Searchbar submit={handleSetSearchQuery}></Searchbar>
+          <Searchbar submit={handleSetSearchQuery} />
           {isLoading && <Loader />}
           {images && images.length !== 0 && (
             <>
@@ -107,9 +107,9 @@ export class App extends Component {
                 data={images}
                 getLargePicture={getLargePicture}
                 openModalFunc={toogleModal}
-              ></ImageGallery>
+              />
               {totalHits > images.length && (
-                <Button LoadMoreFunc={fetchMoreImages}></Button>
+                <Button LoadMoreFunc={fetchMoreImages} />
               )}
             </>
           )}
