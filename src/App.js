@@ -38,6 +38,7 @@ export class App extends Component {
     this.setState({ searchQuery: value, pageNumber: 1, images: [] });
   };
 
+  // Записуємо дані з бекенду
   fetchImages = async () => {
     const { searchQuery, pageNumber } = this.state;
 
@@ -47,8 +48,9 @@ export class App extends Component {
 
       this.setState(({ images }) => ({
         images: [...images, ...data.hits],
+        totalHits: data.totalHits
       }));
-      this.setState({ totalHits: data.totalHits });
+
     } catch (error) {
       this.setState({ error: error.response.data });
     } finally {
