@@ -1,7 +1,7 @@
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 
-const ImageGallery = ({ data, getLargeImage, openModalFunc }) => (
+export const ImageGallery = ({ data, getLargeImage, openModalFunc }) => (
   <List>
     {data.map(({ id, webformatURL, largeImageURL }) => (
       <ImageGalleryItem
@@ -15,4 +15,4 @@ const ImageGallery = ({ data, getLargeImage, openModalFunc }) => (
   </List>
 );
 
-export default ImageGallery;
+

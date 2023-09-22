@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Loader } from 'components/Loader/Loader.js';
 
 // Стили
-import { Global } from 'Global.styled.jsx';
-import { AppWrapper } from 'App.styled.jsx';
-import { Button } from 'components/Button/Button.js';
+import { Global } from '../../styles/Global.styled';
+import { AppWrapper } from './App.styled';
 
 // Компоненты
-import { getAllImages } from './components/services/api.js';
-import Searchbar from './components/Searchbar/Searchbar.js';
-import ImageGallery from './components/ImageGallery/ImageGallery.js';
-import { Modal } from 'components/Modal/Modal.js';
+import { Searchbar } from '../Searchbar/Searchbar.js';
+import { ImageGallery } from '../ImageGallery/ImageGallery.js';
+import { Loader } from '../Loader/Loader.js';
+import { Button } from '../Button/Button.js';
+import { Modal } from '../Modal/Modal.js';
+import { getAllImages } from '../services/api.js';
 
 export class App extends Component {
   state = {

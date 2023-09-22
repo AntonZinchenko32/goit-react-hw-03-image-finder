@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { SearchBar, Form, SearchButton, Input } from './Searchbar.styled.jsx';
 
-class Searchbar extends Component {
+export class Searchbar extends Component {
   state = { value: '' };
 
   componentDidUpdate(_, prevState) {
@@ -34,4 +34,4 @@ class Searchbar extends Component {
   }
 }
 
-export default Searchbar;
+
